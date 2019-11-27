@@ -1,0 +1,121 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="apple-touch-icon" href="icon.png">
+  <!-- Place favicon.ico in the root directory -->
+
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/main.css">
+
+  <meta name="theme-color" content="#fafafa">
+
+  <style>
+    html, body{
+      height: 100%;
+      width: 100%;
+      padding: 0;
+      margin: 0;
+    }
+    /* 输入框外框 */
+    .input{
+      border: 1px solid #cecece;
+      border-radius: 5px;
+      height: 28px;
+      width: 65%;
+    }
+  </style>
+</head>
+
+<body>
+  <!--[if IE]>
+    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+  <![endif]-->
+
+
+  <div style="width: 100%; height: 40%;">
+    <div style="width: 350px; height: 350px;" id="capture">
+      <img src="img/to.jpg" style="width: 350px; height: 350px;">
+      <canvas id="myCanvas" width="400" height="350" style="position: absolute; z-index: 98; left: 0px; top: 0;"></canvas>
+      <canvas id="myCanvas2" width="400" height="350" style="position: absolute; z-index: 99; left: 0px; top: 0;"></canvas>
+    </div>
+    <div style="text-align: center; margin-bottom: 20px;">
+      <label>左箭头：</label>
+      <input class="input" placeholder="请输入随意字符" id="left" oninput="setLeft()" value="2017">
+    </div>
+    <div style="text-align: center;">
+      <label>右箭头：</label>
+      <input class="input" placeholder="请输入随意字符" id="right" oninput="setRight()" value="2019">
+    </div>
+
+    <div style="width: 100%; text-align: center;">
+      <button type="button" onclick="perview()">保存</button>
+    </div>
+
+    <div style="display: none;" id="pre-box">
+      <canvas id="preview" width="350" height="350"></canvas>
+    </div>
+  </div>
+
+  <script src="js/vendor/modernizr-3.7.1.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.4.1.min.js"><\/script>')</script>
+  <script src="js/plugins.js"></script>
+  <script src="js/main.js"></script>
+
+  <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
+  <script>
+    window.ga = function () { ga.q.push(arguments) }; ga.q = []; ga.l = +new Date;
+    ga('create', 'UA-XXXXX-Y', 'auto'); ga('set','transport','beacon'); ga('send', 'pageview')
+  </script>
+  <script src="https://www.google-analytics.com/analytics.js" async></script>
+  <script src="js/html2canvas.js"></script>
+  <script src="js/canvas2image.js"></script>
+  <script>
+    let c = document.getElementById("myCanvas");
+    let ctx = c.getContext("2d");
+    //如果有新消息，则显示消息数；如果没有，则什么都不显示
+    ctx.fillStyle="#382e2f";
+    ctx.textBaseline="top";
+    ctx.textAlign='center';
+    ctx.textBaseline='middle'
+    ctx.font="70px Arial";
+
+    setLeft();
+
+    function setLeft(){
+      ctx.clearRect(0, 0, 400, 460);
+      ctx.fillText(document.getElementById("left").value, 240, 120);
+    }
+
+
+    let c2 = document.getElementById("myCanvas2");
+    let ctx2 = c2.getContext("2d");
+    ctx2.fillStyle="#5d4143fa";
+    ctx2.textBaseline="top";
+    ctx2.textAlign='center';
+    ctx2.textBaseline='middle'
+    ctx2.font="70px Arial";
+
+    setRight();
+
+    function setRight(){
+      ctx2.clearRect(0, 0, 400, 460);
+      ctx2.fillText(document.getElementById("right").value, 140, 256);
+    }
+
+    function perview(){
+      html2canvas(document.querySelector("#capture")).then(canvas => {
+        Canvas2Image.saveAsImage(canvas, 350, 350, 'jpeg')
+      });
+    }
+  </script>
+</body>
+
+</html>
